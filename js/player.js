@@ -32,18 +32,23 @@ export default class Player {
   get bottom() { return this.position.y + this.height }
   get left() { return this.position.x }
   get top() { return this.position.y }
+  set bottom(location) { this.position.y = location - this.height; }
+  set right(location) { this.position.x = location - this.width; }
+  set top(location) { this.position.y = location; }
+  set left(location) { this.position.x = location; }
 
   /**
    * Main function to update location, velocity, and image
    */
   update() {
     // add gravity to hero
-    this.velocity.y += GRAVITY
+    if (this.bottom < FLOOR)
+      this.velocity.y += GRAVITY
 
     // if we hit the floor, we stop falling
-    if (this.bottom >FLOOR) {
+    if (this.bottom > FLOOR) {
       this.velocity.y = 0
-      this.position.y = FLOOR - this.height
+      this.bottom = FLOOR
     }
     // update the location of hero
     this.position.x += this.velocity.x
@@ -60,10 +65,10 @@ export default class Player {
   }
 
   jump() {
-    this.position.y -= 2
-    this.velocity.y = -20
-    
+    if (this.bottom >= FLOOR) {
+      this.bottom = FLOOR
+      this.velocity.y = -22 ;
+    }
   }
-
 }
 

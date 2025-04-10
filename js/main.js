@@ -15,6 +15,10 @@ import { CANVAS, CTX, MS_PER_FRAME, KEYS } from "./globals.js";
 // Globals
 const HERO = new Player(20, 90, 48, 48);
 
+let ground = new Image
+ground.src = "../images/dino_large.png"
+ground.pos_x1 = 0
+ground.pos_x2 = 1150
 let frame_time = performance.now()
 
 // Event Listeners
@@ -33,9 +37,7 @@ function keypress(event) {
   if (event.keyCode == KEYS.SPACE || event.keyCode == KEYS.W || event.keyCode == KEYS.UP_ARROW) {
     HERO.jump()
   }
-
 }
-
 
 /**
  * The main game loop
@@ -56,10 +58,15 @@ function update() {
   
   // Clear the canvas
   CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
-  
+
+  // drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh) <-- allows you to crop the image
+  CTX.drawImage(ground, 0, 103, 1150, 26, ground.pos_x1, 300, 1150, 28)
+  CTX.drawImage(ground, 1150, 103, 2300, 26, ground.pos_x2, 300, 1150, 28)
+  ground.pos_x1 -= 10
+  ground.pos_x2 -= 10
+
   // Draw our hero
   HERO.update();
-  
 }
 
 // Start the animation
