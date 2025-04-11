@@ -8,7 +8,7 @@
  * Author: Julian Cadieux 
  */
 
-import { CTX, CANVAS, GRAVITY, FLOOR } from "./globals.js"
+import { CTX, CANVAS, GRAVITY, FLOOR, ground } from "./globals.js"
 
 export default class Player {
   constructor(x, y, width, height) {
@@ -46,9 +46,11 @@ export default class Player {
       this.velocity.y += GRAVITY
 
     // if we hit the floor, we stop falling
-    if (this.bottom > FLOOR) {
+    if (this.bottom + this.velocity.y >= FLOOR) {
       this.velocity.y = 0
       this.bottom = FLOOR
+    } else {
+      this.velocity.y += GRAVITY
     }
     // update the location of hero
     this.position.x += this.velocity.x
@@ -60,15 +62,17 @@ export default class Player {
    * Draw the player on the canvas
    */
   draw() {
-    CTX.fillStyle = "yellow";
-    CTX.fillRect(this.position.x, this.position.y, this.width, this.height);
+    let i = 0
+    if ()
+
+    CTX.drawImage(ground, 1677, 0, 89, 97, this.position.x, this.position.y, 89, 97)
   }
 
   jump() {
     if (this.bottom >= FLOOR) {
       this.bottom = FLOOR
-      this.velocity.y = -22 ;
-    }
+      this.velocity.y = -30 ;
+    } 
   }
 }
 
