@@ -9,7 +9,7 @@
  */
 
 import { CTX, CANVAS, GRAVITY, FLOOR, ground } from "./globals.js"
-
+let mid = 0
 export default class Player {
   constructor(x, y, width, height) {
     this.width = width;
@@ -62,10 +62,15 @@ export default class Player {
    * Draw the player on the canvas
    */
   draw() {
-    let i = 0
-    if ()
-
-    CTX.drawImage(ground, 1677, 0, 89, 97, this.position.x, this.position.y, 89, 97)
+    mid += 1
+    if (mid <= 11) 
+      CTX.drawImage(ground, 1943, 0, 87, 97, this.position.x, this.position.y, 89, 97)
+    else
+      CTX.drawImage(ground, 1855, 0, 87, 97, this.position.x, this.position.y, 89, 97)
+    if (mid == 22) 
+      mid = 0
+    if (this.bottom < FLOOR) 
+      CTX.drawImage(ground, 1677, 0, 89, 97, this.position.x, this.position.y, 89, 97)
   }
 
   jump() {

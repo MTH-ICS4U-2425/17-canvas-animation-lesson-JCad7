@@ -10,7 +10,8 @@
 'use strict';
 
 import Player from "./player.js";
-import { CANVAS, CTX, MS_PER_FRAME, KEYS, ground } from "./globals.js";
+import { CANVAS, CTX, MS_PER_FRAME, KEYS, ground, randInt } from "./globals.js";
+import Cactus from "./catcus.js";
 
 
 // Globals
@@ -69,7 +70,18 @@ function update() {
     ground.pos_x2 = 1150
 
   // Draw our hero
+  cnt += 1
+  if (cnt % 30   == 0)
+    if(!randInt(0, 3))
+      console.log("test")
+
   HERO.update();
+}
+let cnt = 0
+
+let cacti = []
+for (let i = 0; i < 6; i++) {
+  cacti.push(Cactus(0, 0))
 }
 
 // Start the animation

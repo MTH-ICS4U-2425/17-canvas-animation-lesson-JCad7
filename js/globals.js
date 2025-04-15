@@ -46,5 +46,11 @@ ground.src = "../images/dino_large.png"
  */
 export function $(id) { return document.getElementById(id); }
 
+// randInt function 
+export function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
 // Export all the constants by default
-export default { CANVAS, CTX, FPS, MS_PER_FRAME, GRAVITY, FLOOR, KEYS, $ }
+export default { CANVAS, CTX, FPS, MS_PER_FRAME, GRAVITY, FLOOR, KEYS, $, randInt, ground }
+
