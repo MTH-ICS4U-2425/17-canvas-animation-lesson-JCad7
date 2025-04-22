@@ -25,6 +25,7 @@ let frame_time = performance.now()
 // Event Listeners
 document.addEventListener("keydown", keypress);
 
+
 // Disable the context menu on the entire document
 document.addEventListener("contextmenu", (event) => { 
   event.preventDefault();
@@ -35,9 +36,14 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode))
+  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode)) {
     HERO.jump()
+  } else if ([KEYS.S, KEYS.DOWN_ARROW,].includes(event.keyCode)) {
+      HERO.crouch()
+  }
 }
+
+
 
 /**
  * The main game loop
@@ -79,10 +85,10 @@ function update() {
 }
 let cnt = 0
 
-let cacti = []
-for (let i = 0; i < 6; i++) {
-  cacti.push(Cactus(0, 0))
-}
+// let cacti = []
+// for (let i = 0; i < 6; i++) {
+//   cacti.push(Cactus(0, 0))
+// }
 
 // Start the animation
 update()

@@ -37,6 +37,7 @@ export default class Player {
   set top(location) { this.position.y = location; }
   set left(location) { this.position.x = location; }
 
+  
   /**
    * Main function to update location, velocity, and image
    */
@@ -57,6 +58,7 @@ export default class Player {
     this.position.y += this.velocity.y
     this.draw();
   }
+  
 
   /**
    * Draw the player on the canvas
@@ -79,5 +81,11 @@ export default class Player {
       this.velocity.y = -30 ;
     } 
   }
+
+  crouch() {
+    this.bottom = FLOOR
+    CTX.drawImage(ground, 226, 36, 117, 59, this.position.x, this.position.y, 117, 59)
+  }
+
 }
 

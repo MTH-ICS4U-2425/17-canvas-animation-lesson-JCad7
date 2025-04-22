@@ -12,7 +12,6 @@ import { CTX, CANVAS, GRAVITY, FLOOR, ground, randInt } from "./globals.js"
 
 let cactypes = {
 
-    
 }
 
 
