@@ -58,11 +58,8 @@ export default class Player {
     this.position.y += this.velocity.y
     this.draw();
   }
-  
 
-  /**
-   * Draw the player on the canvas
-   */
+  // Draw the player on the canvas 
   draw() {
     mid += 1
     if (mid <= 11) 
@@ -83,9 +80,11 @@ export default class Player {
   }
 
   crouch() {
-    this.bottom = FLOOR
     CTX.drawImage(ground, 226, 36, 117, 59, this.position.x, this.position.y, 117, 59)
+    
   }
 
 }
+
+
 

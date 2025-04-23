@@ -10,17 +10,29 @@
 
 import { CTX, CANVAS, GRAVITY, FLOOR, ground, randInt } from "./globals.js"
 
-let cactypes = {
-
+const CACTYPES = {
+    0:[446,33,70,28],
+    1:[480,67,70,28],
+    2:[548,102,70,28],
+    3:[652,49,100,50],
+    4:[702,99,100,50],
+    5:[802,149,100,50],
 }
 
-
-export default class Cactus {
-    constructor(x, y) {
-        this.cactype = cactypes[randInt(0, 4)]
-        this.position = {
-            x: x,
-            y: y
-        }
+export default class Cactus { 
+    sx
+    sy = 2
+    sw
+    sh
+    dx 
+    dy 
+    type = 6
+    create(){
+        this.dx = 1150
+        this.dy = FLOOR - CACTYPES[this.type][3]
+        this.sx = CACTYPES[this.type][0]
+        this.sw = CACTYPES[this.type][1]
+        this.sh = CACTYPES[this.type][2]
     }
+    
 }

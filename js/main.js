@@ -9,10 +9,10 @@
 
 'use strict';
 
+// Imports
 import Player from "./player.js";
-import { CANVAS, CTX, MS_PER_FRAME, KEYS, ground, randInt } from "./globals.js";
 import Cactus from "./catcus.js";
-
+import { CANVAS, CTX, MS_PER_FRAME, KEYS, ground, randInt, FLOOR } from "./globals.js";
 
 // Globals
 const HERO = new Player(20, 90, 48, 48);
@@ -22,9 +22,17 @@ ground.pos_x2 = 1150
 
 let frame_time = performance.now()
 
+let cnt = 0
+
+let cacti = [new Cactus(),new Cactus(),new Cactus(),new Cactus()]
+
+let life = true
+
+let index = 0
+
 // Event Listeners
 document.addEventListener("keydown", keypress);
-
+document.addEventListener("keyup", keypress)
 
 // Disable the context menu on the entire document
 document.addEventListener("contextmenu", (event) => { 
@@ -36,13 +44,18 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode)) {
+  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true) {
     HERO.jump()
-  } else if ([KEYS.S, KEYS.DOWN_ARROW,].includes(event.keyCode)) {
+  } else if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
       HERO.crouch()
   }
+  if(!life){
+    for (let i of cacti){
+      i.create()
+    }
+    update()
+  }
 }
-
 
 
 /**
@@ -75,20 +88,33 @@ function update() {
   if (ground.pos_x2 <= -1150)
     ground.pos_x2 = 1150
 
-  // Draw our hero
+ 
+  for (let i of cacti) {
+    if (i.type != 6){ 
+      CTX.drawImage(ground, i.sx, i.sy, i.sw, i.sh, i.dx, i.dy, i.sw, i.sh) 
+      i.dx -= 10
+      if (i.dx + 1 < HERO.right) {
+        if (HERO.right > i.dx && HERO.left < i.dx + i.sw) {
+          // if (HERO.bottom >= FLOOR - i.sh)
+          //   life = false 
+        }
+      }
+    }
+  }
   cnt += 1
-  if (cnt % 30   == 0)
-    if(!randInt(0, 3))
+  if (cnt % 45 == 0) {
+    if(!randInt(0, 2)) {
       console.log("test")
-
+      cacti[index].type = randInt(0,6)
+      cacti[index].create() 
+      index += 1
+      if(index > 3)
+        index = 0
+    }
+  }
   HERO.update();
 }
-let cnt = 0
 
-// let cacti = []
-// for (let i = 0; i < 6; i++) {
-//   cacti.push(Cactus(0, 0))
-// }
 
 // Start the animation
 update()
