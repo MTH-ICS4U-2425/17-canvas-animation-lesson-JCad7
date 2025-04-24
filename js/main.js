@@ -30,9 +30,11 @@ let life = true
 
 let index = 0
 
+let crouching = false
+
 // Event Listeners
 document.addEventListener("keydown", keypress);
-document.addEventListener("keyup", keypress)
+document.addEventListener("keyup", keyrelease)
 
 // Disable the context menu on the entire document
 document.addEventListener("contextmenu", (event) => { 
@@ -46,24 +48,34 @@ document.addEventListener("contextmenu", (event) => {
 function keypress(event) {
   if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true) {
     HERO.jump()
-  } else if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
-      HERO.crouch()
   }
-  if(!life){
-    for (let i of cacti){
+  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == false) {
+    life = true
+    for (let i of cacti) {
       i.create()
+      i.type = 6
     }
+    console.log("reset")
     update()
   }
+  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
+      HERO.crouching = true
+  } 
 }
 
+function keyrelease(event) {
+  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
+    HERO.crouching = false
+  }
+}
 
 /**
  * The main game loop
  */
 function update() {
   // Prepare for the next frame
-  requestAnimationFrame(update)
+  if (life == true)
+    requestAnimationFrame(update)
   
   /*** Desired FPS Trap ***/
   const NOW = performance.now()
@@ -79,8 +91,8 @@ function update() {
   CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
   
   // drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh) <-- allows you to crop the image
-  ground.pos_x1 -= 10
-  ground.pos_x2 -= 10
+  ground.pos_x1 -= 15
+  ground.pos_x2 -= 15
   CTX.drawImage(ground, 0, 103, 1150, 26, ground.pos_x1, 300, 1150, 28)
   CTX.drawImage(ground, 1151, 103, 1149, 26, ground.pos_x2, 300, 1150, 28)
   if (ground.pos_x1 <= -1150) 
@@ -92,11 +104,11 @@ function update() {
   for (let i of cacti) {
     if (i.type != 6){ 
       CTX.drawImage(ground, i.sx, i.sy, i.sw, i.sh, i.dx, i.dy, i.sw, i.sh) 
-      i.dx -= 10
+      i.dx -= 15
       if (i.dx + 1 < HERO.right) {
         if (HERO.right > i.dx && HERO.left < i.dx + i.sw) {
-          // if (HERO.bottom >= FLOOR - i.sh)
-          //   life = false 
+          if (HERO.bottom > FLOOR - i.sh)
+            life = false 
         }
       }
     }
@@ -104,7 +116,7 @@ function update() {
   cnt += 1
   if (cnt % 45 == 0) {
     if(!randInt(0, 2)) {
-      console.log("test")
+      console.log("cactus")
       cacti[index].type = randInt(0,6)
       cacti[index].create() 
       index += 1
@@ -113,6 +125,10 @@ function update() {
     }
   }
   HERO.update();
+  if (life == false) {
+    HERO.crouching = false
+    return
+  }
 }
 
 

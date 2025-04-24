@@ -11,9 +11,10 @@
 import { CTX, CANVAS, GRAVITY, FLOOR, ground } from "./globals.js"
 let mid = 0
 export default class Player {
-  constructor(x, y, width, height) {
+  constructor(x, y, width, height, crouching) {
     this.width = width;
     this.height = height;
+    this.crouching = crouching = false
 
     this.position = {
       x: x,
@@ -70,19 +71,19 @@ export default class Player {
       mid = 0
     if (this.bottom < FLOOR) 
       CTX.drawImage(ground, 1677, 0, 89, 97, this.position.x, this.position.y, 89, 97)
+    if (this.crouching == true)
+      CTX.drawImage(ground, 2206, 36, 117, 59, this.position.x, this.position.y, 117, 59)
+
   }
 
   jump() {
     if (this.bottom >= FLOOR) {
       this.bottom = FLOOR
       this.velocity.y = -30 ;
+      console.log("jump")
     } 
   }
 
-  crouch() {
-    CTX.drawImage(ground, 226, 36, 117, 59, this.position.x, this.position.y, 117, 59)
-    
-  }
 
 }
 

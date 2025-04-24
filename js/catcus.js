@@ -28,11 +28,13 @@ export default class Cactus {
     dy 
     type = 6
     create(){
-        this.dx = 1150
-        this.dy = FLOOR - CACTYPES[this.type][3]
-        this.sx = CACTYPES[this.type][0]
-        this.sw = CACTYPES[this.type][1]
-        this.sh = CACTYPES[this.type][2]
+        if (this.type != 6) {
+            this.dx = 1150
+            this.dy = FLOOR - CACTYPES[this.type][3]
+            this.sx = CACTYPES[this.type][0]
+            this.sw = CACTYPES[this.type][1]
+            this.sh = CACTYPES[this.type][2]
+        }
     }
     
 }
