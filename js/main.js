@@ -30,8 +30,6 @@ let life = true
 
 let index = 0
 
-let crouching = false
-
 // Event Listeners
 document.addEventListener("keydown", keypress);
 document.addEventListener("keyup", keyrelease)
@@ -46,9 +44,8 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true) {
+  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true && HERO.crouching == false)
     HERO.jump()
-  }
   if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == false) {
     life = true
     for (let i of cacti) {
@@ -62,10 +59,12 @@ function keypress(event) {
       HERO.crouching = true
   } 
 }
-
 function keyrelease(event) {
   if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
     HERO.crouching = false
+    HERO.height = 48
+    HERO.width = 48
+    HERO.bottom = FLOOR
   }
 }
 
@@ -76,7 +75,6 @@ function update() {
   // Prepare for the next frame
   if (life == true)
     requestAnimationFrame(update)
-  
   /*** Desired FPS Trap ***/
   const NOW = performance.now()
   const TIME_PASSED = NOW - frame_time
@@ -99,8 +97,6 @@ function update() {
     ground.pos_x1 = 1150
   if (ground.pos_x2 <= -1150)
     ground.pos_x2 = 1150
-
- 
   for (let i of cacti) {
     if (i.type != 6){ 
       CTX.drawImage(ground, i.sx, i.sy, i.sw, i.sh, i.dx, i.dy, i.sw, i.sh) 
@@ -130,7 +126,6 @@ function update() {
     return
   }
 }
-
 
 // Start the animation
 update()
