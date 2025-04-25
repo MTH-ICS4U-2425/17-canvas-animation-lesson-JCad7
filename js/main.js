@@ -26,7 +26,7 @@ let cnt = 0
 
 let cacti = [new Cactus(),new Cactus(),new Cactus(),new Cactus()]
 
-let life = true
+let life = false
 
 let index = 0
 
@@ -44,8 +44,6 @@ document.addEventListener("contextmenu", (event) => {
  * The user pressed a key on the keyboard 
  */
 function keypress(event) {
-  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true && HERO.crouching == false)
-    HERO.jump()
   if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == false) {
     life = true
     for (let i of cacti) {
@@ -55,16 +53,24 @@ function keypress(event) {
     console.log("reset")
     update()
   }
-  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
+  if ([KEYS.W, KEYS.UP_ARROW, KEYS.SPACE].includes(event.keyCode) && life == true && HERO.crouching == false)
+    HERO.jump()
+  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true && HERO.bottom >= FLOOR) {
       HERO.crouching = true
   } 
 }
 function keyrelease(event) {
-  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true) {
+  if ([KEYS.S, KEYS.DOWN_ARROW].includes(event.keyCode) && life == true && HERO.bottom >= FLOOR) {
     HERO.crouching = false
     HERO.height = 48
     HERO.width = 48
     HERO.bottom = FLOOR
+  }
+}
+function splashscreen() {
+  if (life == false) {
+    CTX.drawImage(ground, 76, 0, 88, 97, 20, 220, 88, 97)
+    requestAnimationFrame(splashscreen)
   }
 }
 
@@ -73,8 +79,9 @@ function keyrelease(event) {
  */
 function update() {
   // Prepare for the next frame
-  if (life == true)
+  if (life == true) 
     requestAnimationFrame(update)
+  
   /*** Desired FPS Trap ***/
   const NOW = performance.now()
   const TIME_PASSED = NOW - frame_time
@@ -129,3 +136,4 @@ function update() {
 
 // Start the animation
 update()
+splashscreen()
